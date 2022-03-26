@@ -1,9 +1,9 @@
-import HomeView from "../../../views/HomeView.vue";
 const routes = [
   {
     path: "/",
     name: "home",
-    component: HomeView,
+    component: () =>
+      import(/* webpackChunkName: "allTasks" */ "../ui/views/TasksPage"),
   },
   {
     path: "/about",

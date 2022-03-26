@@ -5,6 +5,7 @@ import windowSize from "./module/windowSize";
 import preloader from "./module/preloader";
 import menuStore from "./module/menuStore";
 import style from "./module/style";
+import alerts from "./module/alerts";
 
 Vue.use(Vuex);
 
@@ -18,5 +19,6 @@ export default new Vuex.Store({
     preloader,
     menuStore,
     style,
+    alerts,
   },
 });
