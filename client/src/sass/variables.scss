@@ -1,0 +1,81 @@
+@import "~vuetify/src/styles/styles.sass";
+
+$text-color: #212229;
+$text-color-dark: #70737c;
+
+html {
+  ::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #cecece;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #bcd7f0;
+  }
+}
+
+#app.theme--dark,
+#app.v-application.theme--dark,
+.v-application.theme--dark {
+  color: $text-color-dark;
+
+  ::-webkit-scrollbar-track {
+    background: #1f1f1f;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #101010;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #000;
+  }
+}
+
+#app,
+#app.v-application,
+.v-application {
+  color: $text-color;
+  text-align: center;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  ::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #cecece;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #bcd7f0;
+  }
+}
+
+a {
+  text-decoration: none;
+}
+
+.menuBtn.v-btn.v-btn--icon {
+  color: #fff;
+}
+
+.noBreak {
+  word-break: normal !important;
+}
+
+body {
+  box-sizing: border-box;
+}

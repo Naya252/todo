@@ -21,7 +21,7 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   const tasks = await loadTasksCollection();
   await tasks.insertOne({
-    text: req.body.text,
+    text: req.body.data.text,
   });
   res.status(201).send();
 });

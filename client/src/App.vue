@@ -1,32 +1,37 @@
 <template>
-  <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view />
-  </div>
+  <v-theme-provider root>
+    <div>
+      <component :is="layout">
+        <router-view />
+      </component>
+    </div>
+  </v-theme-provider>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import DefaultLayout from "./layouts/DefaultLayout.vue";
+import ErrorLayout from "./layouts/ErrorLayout.vue";
 
-nav {
-  padding: 30px;
+export default {
+  name: "App",
+  components: {
+    DefaultLayout,
+    ErrorLayout,
+  },
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+  data: () => ({
+    //
+  }),
+  computed: {
+    layout() {
+      return (
+        ((this.$route.meta && this.$route.meta.layout) || "default") + "-layout"
+      );
+    },
+  },
+};
+</script>
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
+<style lang="scss" scoped>
+@import "~/src/sass/variables.scss";
 </style>
