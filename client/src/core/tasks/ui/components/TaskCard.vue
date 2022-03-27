@@ -1,28 +1,49 @@
 <template>
   <v-row>
     <Draggable
-      class="col-12 pa-0"
+      class="col-12 pa-0 pt-3 pb-6"
       v-model="dragTasks"
       v-bind="dragOptionsTasks"
       :handle="`.task-${listId}`"
     >
       <v-col v-for="task in dragTasks" :key="task._id">
-        <v-card>
-          <v-card-text>
-            {{ task.title }}
-            {{ task }}
-          </v-card-text>
-          <v-card-actions>
-            <my-btn-icon
-              :isTooltip="true"
-              :id="`moveTaskBtn-${task._id}`"
-              tooltipTitle="Move"
-              :class="`task-${task.parentId}`"
-            >
-              <v-icon>mdi-format-line-spacing</v-icon>
-            </my-btn-icon>
-          </v-card-actions>
-        </v-card>
+        <v-hover v-slot="{ hover }">
+          <v-card
+            :elevation="hover ? 5 : 0"
+            style="transition: all 0.3s ease; border: 1px dashed #ccc"
+          >
+            <v-row class="ma-0">
+              <v-col class="col-auto pa-0">
+                <v-card-actions>
+                  <v-checkbox
+                    :hide-details="true"
+                    color="MainColor"
+                    class="mt-1 ml-2"
+                    :value="task.isArchived"
+                    @change="changeIsArchived(task)"
+                  ></v-checkbox>
+                </v-card-actions>
+              </v-col>
+              <v-col class="pa-0">
+                <v-card-text class="pb-2 text-left">
+                  {{ task.title }}
+                </v-card-text>
+              </v-col>
+              <v-col class="col-auto pa-0">
+                <v-card-actions>
+                  <my-btn-icon
+                    :isTooltip="false"
+                    :id="`moveTaskBtn-${task._id}`"
+                    tooltipTitle="Move"
+                    :class="`task-${task.parentId}`"
+                  >
+                    <v-icon>mdi-format-line-spacing</v-icon>
+                  </my-btn-icon>
+                </v-card-actions>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-hover>
       </v-col>
     </Draggable>
   </v-row>
@@ -59,6 +80,8 @@ export default {
     showAddTask: false,
     parentListId: "",
     parentListTitle: "",
+
+    checkbox: false,
   }),
   created() {},
   computed: {
@@ -92,6 +115,20 @@ export default {
       "CHANGE_ACTIVE_TO_DO_LIST",
       "CHANGE_ACTIVE_TO_DO_LIST_DRAGGABLE",
     ]),
+    changeIsArchived(task) {
+      task.isArchived = !task.isArchived;
+      if (task.isArchived) {
+        this.SET_ADD_ALERT({
+          type: "suc",
+          text: `The task ${task.title} completed`,
+        });
+      } else {
+        this.SET_ADD_ALERT({
+          type: "info",
+          text: `The task ${task.title} returned to work`,
+        });
+      }
+    },
   },
 };
 </script>
