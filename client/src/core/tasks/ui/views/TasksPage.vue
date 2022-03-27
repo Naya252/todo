@@ -95,9 +95,7 @@
                       </v-list-item-title>
                     </template>
                     <v-list-item v-if="list.tasks.length > 0">
-                      <v-card v-for="task in list.tasks" :key="task._id">
-                        {{ task.title }}
-                      </v-card>
+                      <TaskCard :tasks="list.tasks" :listId="list._id" />
                     </v-list-item>
                     <v-list-item v-else>
                       you don't have any tasks on this to-do list
@@ -151,6 +149,7 @@ import Draggable from "vuedraggable";
 import CreateList from "../components/modalWindows/CreateList.vue";
 import RenameList from "../components/modalWindows/RenameList.vue";
 import AddTask from "../components/modalWindows/AddTask.vue";
+import TaskCard from "../components/TaskCard.vue";
 export default {
   name: "TasksPage",
   components: {
@@ -158,6 +157,7 @@ export default {
     CreateList,
     RenameList,
     AddTask,
+    TaskCard,
   },
 
   data: () => ({
@@ -171,7 +171,12 @@ export default {
   }),
   created() {},
   computed: {
-    ...mapGetters(["LOADER_SHOW", "GET_WINDOW_SIZE", "GET_ACTIVE_TO_DO_LISTS"]),
+    ...mapGetters([
+      "LOADER_SHOW",
+      "GET_WINDOW_SIZE",
+      "GET_ACTIVE_TO_DO_LISTS",
+      "GET_ACTIVE_TO_DO_LIST_BY_ID",
+    ]),
     toDoLists: {
       get() {
         return this.GET_ACTIVE_TO_DO_LISTS;
@@ -179,10 +184,6 @@ export default {
       set(value) {
         this.$store.commit("CHANGE_ACTIVE_TO_DO_LISTS", value);
         this.$store.commit("CHANGE_ACTIVE_TO_DO_LISTS_DRAGGABLE");
-        // this.SET_ADD_ALERT({
-        //   type: "suc",
-        //   text: "ok",
-        // });
       },
     },
     dragOptionsToDoList() {

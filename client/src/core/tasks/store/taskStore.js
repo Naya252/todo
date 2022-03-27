@@ -33,8 +33,19 @@ export default {
       );
       state.activeToDoLists = value;
     },
+    CHANGE_ACTIVE_TO_DO_LIST: (state, data) => {
+      let value = listService.changeActiveToDoListByIdForDraggable(
+        state.activeToDoLists,
+        data
+      );
+      state.activeToDoLists = value;
+      console.log(state.activeToDoLists);
+    },
     CHANGE_ACTIVE_TO_DO_LISTS_DRAGGABLE: (state) => {
       listService.draggableActiveToDoLists(state.activeToDoLists);
+    },
+    CHANGE_ACTIVE_TO_DO_LIST_DRAGGABLE: (state, id) => {
+      listService.draggableActiveToDoListById(state.activeToDoLists, id);
     },
     RENAME_TO_DO_LIST: (state, data) => {
       state.activeToDoLists.forEach((el) => {
@@ -43,17 +54,17 @@ export default {
         }
       });
     },
-    // ADD_TASK_TO_DO_LIST: (state, data) => {
-    //     state.activeToDoLists.forEach((el) => {
-    //       if (el._id == data.id) {
-    //         el.title = data.title;
-    //       }
-    //     });
-    //   },
   },
   getters: {
     GET_ACTIVE_TO_DO_LISTS(state) {
       return state.activeToDoLists;
+    },
+    GET_ACTIVE_TO_DO_LIST_BY_ID(state, id) {
+      let list = state.activeToDoLists.filter((el) => {
+        el._id == id;
+      });
+      console.log(list);
+      return list;
     },
     GET_ARCHIVE_TO_DO_LISTS(state) {
       return state.archiveToDoLists;

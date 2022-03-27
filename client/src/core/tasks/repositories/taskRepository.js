@@ -25,3 +25,18 @@ export async function getAllTasks() {
       console.log(error);
     });
 }
+
+export async function draggableActiveToDoListById(data) {
+  data.forEach((el) => {
+    return axios
+      .put(`${apiRoute}moveTask/${el._id}`, {
+        order: el.order,
+      })
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
+}
