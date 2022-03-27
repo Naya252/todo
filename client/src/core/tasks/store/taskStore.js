@@ -8,7 +8,7 @@ export default {
   }),
   actions: {
     GET_ALL_TO_DO_LISTS({ commit }) {
-        taskService.getAllToDoLists().then((response) => {
+      taskService.getAllToDoLists().then((response) => {
         commit("SET_ALL_TO_DO_LISTS", response);
         commit("SET_ACTIVE_TO_DO_LISTS", response);
         commit("SET_ARCHIVE_TO_DO_LISTS", response);
@@ -34,6 +34,13 @@ export default {
     },
     CHANGE_ACTIVE_TO_DO_LISTS_DRAGGABLE: (state) => {
       taskService.draggableActiveToDoLists(state.activeToDoLists);
+    },
+    RENAME_TO_DO_LIST: (state, data) => {
+      state.activeToDoLists.forEach((el) => {
+        if (el._id == data.id) {
+          el.title = data.title;
+        }
+      });
     },
   },
   getters: {

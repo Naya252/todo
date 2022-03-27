@@ -33,10 +33,25 @@ import { mapMutations } from "vuex";
 import * as taskRepository from "../../../repositories/taskRepository";
 
 export default {
-  name: "CreateList",
+  name: "RenameList",
   components: {},
   props: {
-    showModal: Boolean,
+    showModal: {
+      type: Boolean,
+      default: false,
+    },
+    id: {
+      type: [String, Number],
+      require: true,
+    },
+    title: {
+      type: String,
+      require: true,
+      default: "",
+    },
+  },
+  created() {
+    this.controls.Title = this.title;
   },
   data() {
     return {
@@ -56,31 +71,41 @@ export default {
   },
   watch: {
     showModal() {
-      if (!this.showModal) {
-        this.clearForm();
-      } else {
+      if (this.showModal) {
         this.setData();
+      } else {
+        this.clearForm();
       }
     },
   },
   methods: {
-    ...mapMutations(["SET_ADD_ALERT"]),
-    ...mapMutations(["LOADER_INCREMENT", "LOADER_DECREMENT"]),
+    ...mapMutations([
+      "SET_ADD_ALERT",
+      "LOADER_INCREMENT",
+      "LOADER_DECREMENT",
+      "RENAME_TO_DO_LIST",
+    ]),
 
     async success() {
-      if (this.$refs.form.validate()) {
+      if (this.$refs.form.validate() && this.controls.Title != this.title) {
         try {
           this.LOADER_INCREMENT();
-          taskRepository.createToDoList(this.controls.Title).then(() => {
-            this.SET_ADD_ALERT({
-              type: "suc",
-              text: `List "${this.controls.Title}" created successfully`,
-              time: 3000,
+          taskRepository
+            .renameToDoList({ id: this.id, title: this.controls.Title })
+            .then(() => {
+              this.RENAME_TO_DO_LIST({
+                id: this.id,
+                title: this.controls.Title,
+              });
+              this.SET_ADD_ALERT({
+                type: "info",
+                text: `List title changed to "${this.controls.Title}"`,
+                time: 3000,
+              });
+              this.LOADER_DECREMENT();
+              this.clearForm();
+              this.$emit("event-success");
             });
-            this.LOADER_DECREMENT();
-            this.clearForm();
-            this.$emit("event-success");
-          });
         } catch (error) {
           this.SET_ADD_ALERT({
             type: "err",
@@ -89,10 +114,13 @@ export default {
           });
         }
       }
+      if (this.$refs.form.validate() && this.controls.Title == this.title) {
+        this.cancel();
+      }
     },
 
     setData() {
-      this.controls.Title = ``;
+      this.controls.Title = this.title;
     },
 
     clearForm() {

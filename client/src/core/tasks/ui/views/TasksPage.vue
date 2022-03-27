@@ -6,6 +6,7 @@
           Your lists
           <my-btn-icon
             v-if="toDoLists.length > 0"
+            :key="toDoLists.length"
             :isTooltip="true"
             :id="`addListBtn`"
             tooltipTitle="Add list"
@@ -17,7 +18,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col class="col-12" v-if="toDoLists.length > 0">
+      <v-col class="col-12" :key="toDoLists.length" v-if="toDoLists.length > 0">
         <Draggable
           class="col-12 pa-0"
           v-model="toDoLists"
@@ -43,12 +44,7 @@
                   :isTooltip="true"
                   :id="`penBtn-${list._id}`"
                   tooltipTitle="Edit title"
-                  @click="
-                    SET_ADD_ALERT({
-                      type: 'suc',
-                      text: 'click edit',
-                    })
-                  "
+                  @click="openRenameListModal(list._id, list.title)"
                 >
                   <v-icon>mdi-pen</v-icon>
                 </my-btn-icon>
@@ -119,7 +115,7 @@
           </v-row>
         </Draggable>
       </v-col>
-      <v-col v-else>
+      <v-col v-else :key="toDoLists.length">
         <h3>You haven't created any to-do list yet</h3>
 
         <my-btn @click="showCreateList = true" class="ma-4">
@@ -128,10 +124,19 @@
         </my-btn>
       </v-col>
     </v-row>
-    <my-modal-center title="Create To Do List" :dialog="showCreateList">
+    <my-modal-center title="Create to-do list" :dialog="showCreateList">
       <CreateList
         @event-success="successCreateList"
         @event-cancel="showCreateList = false"
+      />
+    </my-modal-center>
+    <my-modal-center title="Rename to-do list" :dialog="showRenameList">
+      <RenameList
+        :id="renameListId"
+        :title="renameListTitle"
+        :showModal="showRenameList"
+        @event-success="successRenameList"
+        @event-cancel="showRenameList = false"
       />
     </my-modal-center>
   </v-container>
@@ -141,15 +146,20 @@
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import Draggable from "vuedraggable";
 import CreateList from "../components/modalWindows/CreateList.vue";
+import RenameList from "../components/modalWindows/RenameList.vue";
 export default {
   name: "TasksPage",
   components: {
     Draggable,
     CreateList,
+    RenameList,
   },
 
   data: () => ({
     showCreateList: false,
+    showRenameList: false,
+    renameListId: "",
+    renameListTitle: "",
   }),
   created() {},
   computed: {
@@ -186,6 +196,14 @@ export default {
       this.GET_ALL_TO_DO_LISTS().then(() => {
         this.LOADER_DECREMENT();
       });
+    },
+    openRenameListModal(id, title) {
+      this.renameListId = id;
+      this.renameListTitle = title;
+      this.showRenameList = true;
+    },
+    successRenameList() {
+      this.showRenameList = false;
     },
   },
 };

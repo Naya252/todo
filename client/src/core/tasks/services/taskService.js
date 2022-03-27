@@ -32,7 +32,7 @@ export function getArchiveToDoLists(allLists) {
 }
 
 export function draggableActiveToDoLists(lists) {
-  let order = 0;
+  let order = 1;
   let arr = [];
   lists.forEach((el) => {
     arr.push({ _id: el._id, order: order++ });

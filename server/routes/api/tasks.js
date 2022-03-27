@@ -24,11 +24,31 @@ router.post("/createList", async (req, res) => {
 
 //Move ToDoList
 router.put("/moveList/:id", async (req, res) => {
-  const questions = await loadListsCollection();
+  const lists = await loadListsCollection();
   const $set = {
     order: req.body.order,
   };
-  await questions.findOneAndUpdate(
+  await lists.findOneAndUpdate(
+    { _id: new mongodb.ObjectId(req.params.id) },
+    {
+      $set,
+    },
+    {
+      new: true,
+      upsert: true,
+      rawResult: true,
+    }
+  );
+  res.status(204).send();
+});
+
+//Rename ToDoList
+router.put("/renameList/:id", async (req, res) => {
+  const lists = await loadListsCollection();
+  const $set = {
+    title: req.body.title,
+  };
+  await lists.findOneAndUpdate(
     { _id: new mongodb.ObjectId(req.params.id) },
     {
       $set,

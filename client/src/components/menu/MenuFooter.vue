@@ -2,7 +2,7 @@
   <v-footer app absolute dark padless>
     <v-card class="flex pa-0 mx-auto" flat tile max-width="1920px">
       <v-card-title class="py-1" style="font-size: 0.88rem">
-        &copy;2022 <strong class="ml-2">N_&_N {{ GET_WINDOW_SIZE.x }}</strong>
+        &copy;2022 <strong class="ml-2">N_&_N </strong>
 
         <v-spacer></v-spacer>
 

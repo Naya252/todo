@@ -26,6 +26,19 @@ export async function createToDoList(data) {
     });
 }
 
+export async function renameToDoList(data) {
+  return await axios
+    .put(`${apiRoute}renameList/${data.id}`, {
+      title: data.title,
+    })
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
 export async function draggableActiveToDoLists(data) {
   data.forEach((el) => {
     return axios
