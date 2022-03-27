@@ -14,7 +14,7 @@ export default new Vuetify({
   },
   theme: {
     options: {
-      // customProperties: true,
+      customProperties: true,
       minifyTheme,
     },
     themes: {

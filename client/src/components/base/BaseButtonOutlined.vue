@@ -1,5 +1,6 @@
 <template>
   <v-btn
+    dark
     :color="color"
     outlined
     class="base-button"

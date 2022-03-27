@@ -1,5 +1,6 @@
 <template>
   <v-btn
+    dark
     @click="onClick"
     :color="color"
     elevation="0"

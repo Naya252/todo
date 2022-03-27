@@ -1,8 +1,9 @@
 <template>
   <div style="display: inline-block">
     <v-btn
+      dark
       :id="id"
-      :color="hover ? color : ''"
+      :color="hover ? color : baseColor"
       icon
       class="base-button ma-1"
       elevation="0"
@@ -13,13 +14,8 @@
     >
       <slot></slot>
     </v-btn>
-    <v-tooltip
-      bottom
-      v-model="showToolTip"
-      :attach="`#${id}`"
-      :position-y="30"
-    >
-      <span>{{tooltipTitle}}</span>
+    <v-tooltip bottom v-model="showToolTip" :attach="`#${id}`" :position-y="30">
+      <span>{{ tooltipTitle }}</span>
     </v-tooltip>
   </div>
 </template>
@@ -33,6 +29,11 @@ export default {
       type: String,
       required: false,
       default: "MainColor",
+    },
+    baseColor: {
+      type: String,
+      required: false,
+      default: "#666",
     },
     disabled: {
       type: Boolean,

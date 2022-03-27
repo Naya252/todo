@@ -4,6 +4,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import axios from "./plugins/axios";
+import Draggable from "vuedraggable";
 import "./plugins/customComponents";
 
 import browserDetect from "vue-browser-detect-plugin";
@@ -16,5 +17,6 @@ new Vue({
   router,
   store,
   vuetify,
+  Draggable,
   render: (h) => h(App),
 }).$mount("#app");

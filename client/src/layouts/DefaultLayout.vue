@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 import MenuAppBar from "../components/menu/MenuAppBar.vue";
 import MenuSideBar from "../components/menu/MenuSideBar.vue";
 import MenuFooter from "../components/menu/MenuFooter.vue";
@@ -56,10 +56,17 @@ export default {
     Preloader,
     Alert,
   },
+  created() {
+    this.LOADER_INCREMENT();
+    this.GET_ALL_TO_DO_LISTS().then(() => {
+      this.LOADER_DECREMENT();
+    });
+  },
   async mounted() {
     this.onResize();
   },
   methods: {
+    ...mapActions(["GET_ALL_TO_DO_LISTS"]),
     ...mapMutations([
       "LOADER_INCREMENT",
       "LOADER_DECREMENT",
