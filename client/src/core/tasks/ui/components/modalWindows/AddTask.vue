@@ -2,6 +2,18 @@
   <div>
     <v-form ref="form" v-model="valid" @submit.prevent="onSubmit">
       <v-card-text class="pt-0 px-8 pb-2 text-left" style="font-size: 16px"
+        >To-do List
+        <v-text-field
+          :value="parentTitle"
+          disabled
+          filled
+          dense
+          required
+          autocomplete="off"
+          color="MainColor"
+        ></v-text-field>
+      </v-card-text>
+      <v-card-text class="pt-0 px-8 pb-2 text-left" style="font-size: 16px"
         >Title
         <v-text-field
           v-model="controls.Title"
@@ -14,12 +26,26 @@
         ></v-text-field>
       </v-card-text>
 
+      <v-card-text class="pt-0 px-8 pb-2 text-left" style="font-size: 16px"
+        >Description
+        <v-textarea
+          v-model="controls.Description"
+          filled
+          dense
+          autocomplete="off"
+          color="MainColor"
+          rows="1"
+          auto-grow
+          class="textarea_body"
+        ></v-textarea>
+      </v-card-text>
+
       <v-divider></v-divider>
       <v-card-actions
         class="pa-8"
         style="display: flex; justify-content: center; align-items: center"
       >
-        <my-btn :btnTitle="'Ok'" @click="success" />
+        <my-btn :btnTitle="'Create'" @click="success" />
 
         <my-btn-outlined btnTitle="Cancel" @click="cancel" />
       </v-card-actions>
@@ -30,35 +56,34 @@
 <script>
 import { mapMutations } from "vuex";
 
-import * as listRepository from "../../../repositories/listRepository";
+import * as taskRepository from "../../../repositories/taskRepository";
 
 export default {
-  name: "RenameList",
+  name: "AddTask",
   components: {},
   props: {
     showModal: {
       type: Boolean,
       default: false,
     },
-    id: {
+    parentId: {
       type: [String, Number],
       require: true,
     },
-    title: {
+    parentTitle: {
       type: String,
       require: true,
       default: "",
     },
   },
-  created() {
-    this.controls.Title = this.title;
-  },
+  created() {},
   data() {
     return {
       valid: true,
 
       controls: {
         Title: "",
+        Description: "",
       },
 
       rules: {
@@ -71,41 +96,34 @@ export default {
   },
   watch: {
     showModal() {
-      if (this.showModal) {
-        this.setData();
-      } else {
+      if (!this.showModal) {
         this.clearForm();
       }
     },
   },
   methods: {
-    ...mapMutations([
-      "SET_ADD_ALERT",
-      "LOADER_INCREMENT",
-      "LOADER_DECREMENT",
-      "RENAME_TO_DO_LIST",
-    ]),
+    ...mapMutations(["SET_ADD_ALERT", "LOADER_INCREMENT", "LOADER_DECREMENT"]),
 
     async success() {
-      if (this.$refs.form.validate() && this.controls.Title != this.title) {
+      if (this.$refs.form.validate()) {
+        const data = {
+          title: this.controls.Title,
+          description: this.controls.Description,
+          parentId: this.parentId,
+          parentTitle: this.parentTitle,
+        };
         try {
           this.LOADER_INCREMENT();
-          listRepository
-            .renameToDoList({ id: this.id, title: this.controls.Title })
-            .then(() => {
-              this.RENAME_TO_DO_LIST({
-                id: this.id,
-                title: this.controls.Title,
-              });
-              this.SET_ADD_ALERT({
-                type: "info",
-                text: `List title changed to "${this.controls.Title}"`,
-                time: 3000,
-              });
-              this.LOADER_DECREMENT();
-              this.clearForm();
-              this.$emit("event-success");
+          taskRepository.createTask(data).then(() => {
+            this.SET_ADD_ALERT({
+              type: "suc",
+              text: `Task "${this.controls.Title}" created`,
+              time: 3000,
             });
+            this.LOADER_DECREMENT();
+            this.clearForm();
+            this.$emit("event-success");
+          });
         } catch (error) {
           this.SET_ADD_ALERT({
             type: "err",
@@ -114,13 +132,6 @@ export default {
           });
         }
       }
-      if (this.$refs.form.validate() && this.controls.Title == this.title) {
-        this.cancel();
-      }
-    },
-
-    setData() {
-      this.controls.Title = this.title;
     },
 
     clearForm() {
@@ -134,3 +145,12 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.textarea_body {
+  textarea {
+    max-height: 150px !important;
+    overflow: auto !important;
+  }
+}
+</style>

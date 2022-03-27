@@ -2,20 +2,9 @@ import axios from "axios";
 
 const apiRoute = "/api/tasks/";
 
-export async function getAllToDoLists() {
+export async function createTask(data) {
   return await axios
-    .get(`${apiRoute}getAllLists`)
-    .then((response) => {
-      return response.data;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}
-
-export async function createToDoList(data) {
-  return await axios
-    .post(`${apiRoute}createList`, {
+    .post(`${apiRoute}createTask`, {
       data,
     })
     .then((response) => {
@@ -26,37 +15,9 @@ export async function createToDoList(data) {
     });
 }
 
-export async function renameToDoList(data) {
+export async function getAllTasks() {
   return await axios
-    .put(`${apiRoute}renameList/${data.id}`, {
-      title: data.title,
-    })
-    .then((response) => {
-      return response.data;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}
-
-export async function draggableActiveToDoLists(data) {
-  data.forEach((el) => {
-    return axios
-      .put(`${apiRoute}moveList/${el._id}`, {
-        order: el.order,
-      })
-      .then((response) => {
-        return response.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  });
-}
-
-export async function getTaskById(id) {
-  return await axios
-    .get(`${apiRoute}${id}`)
+    .get(`${apiRoute}getAllTasks`)
     .then((response) => {
       return response.data;
     })

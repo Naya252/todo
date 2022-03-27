@@ -30,7 +30,7 @@
 <script>
 import { mapMutations } from "vuex";
 
-import * as taskRepository from "../../../repositories/taskRepository";
+import * as listRepository from "../../../repositories/listRepository";
 
 export default {
   name: "CreateList",
@@ -71,7 +71,7 @@ export default {
       if (this.$refs.form.validate()) {
         try {
           this.LOADER_INCREMENT();
-          taskRepository.createToDoList(this.controls.Title).then(() => {
+          listRepository.createToDoList(this.controls.Title).then(() => {
             this.SET_ADD_ALERT({
               type: "suc",
               text: `List "${this.controls.Title}" created successfully`,

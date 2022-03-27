@@ -6,7 +6,7 @@
           Your lists
           <my-btn-icon
             v-if="toDoLists.length > 0"
-            :key="toDoLists.length"
+            :key="toDoLists ? toDoLists.length : '111'"
             :isTooltip="true"
             :id="`addListBtn`"
             tooltipTitle="Add list"
@@ -18,7 +18,11 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col class="col-12" :key="toDoLists.length" v-if="toDoLists.length > 0">
+      <v-col
+        class="col-12"
+        :key="toDoLists ? toDoLists.length : '111'"
+        v-if="toDoLists.length > 0"
+      >
         <Draggable
           class="col-12 pa-0"
           v-model="toDoLists"
@@ -53,12 +57,7 @@
                   :isTooltip="true"
                   :id="`addTaskBtn-${list._id}`"
                   tooltipTitle="Add task"
-                  @click="
-                    SET_ADD_ALERT({
-                      type: 'info',
-                      text: 'click add',
-                    })
-                  "
+                  @click="openAddTaskModal(list._id, list.title)"
                 >
                   <v-icon>mdi-sticker-plus-outline</v-icon>
                 </my-btn-icon>
@@ -68,12 +67,6 @@
                   :id="`moveListBtn-${list._id}`"
                   tooltipTitle="Move"
                   class="todoList"
-                  @click="
-                    SET_ADD_ALERT({
-                      type: 'err',
-                      text: 'click move',
-                    })
-                  "
                 >
                   <v-icon>mdi-format-line-spacing</v-icon>
                 </my-btn-icon>
@@ -97,7 +90,8 @@
                           font-weight: 400;
                         "
                       >
-                        {{ list.tasks.length }} tasks
+                        {{ list.tasks.length }}
+                        {{ countName(list.tasks.length) }}
                       </v-list-item-title>
                     </template>
                     <v-list-item v-if="list.tasks.length > 0">
@@ -139,6 +133,15 @@
         @event-cancel="showRenameList = false"
       />
     </my-modal-center>
+    <my-modal-center title="Add task" :dialog="showAddTask">
+      <AddTask
+        :parentId="parentListId"
+        :parentTitle="parentListTitle"
+        :showModal="showAddTask"
+        @event-success="successAddTask"
+        @event-cancel="showAddTask = false"
+      />
+    </my-modal-center>
   </v-container>
 </template>
 
@@ -147,12 +150,14 @@ import { mapActions, mapGetters, mapMutations } from "vuex";
 import Draggable from "vuedraggable";
 import CreateList from "../components/modalWindows/CreateList.vue";
 import RenameList from "../components/modalWindows/RenameList.vue";
+import AddTask from "../components/modalWindows/AddTask.vue";
 export default {
   name: "TasksPage",
   components: {
     Draggable,
     CreateList,
     RenameList,
+    AddTask,
   },
 
   data: () => ({
@@ -160,6 +165,9 @@ export default {
     showRenameList: false,
     renameListId: "",
     renameListTitle: "",
+    showAddTask: false,
+    parentListId: "",
+    parentListTitle: "",
   }),
   created() {},
   computed: {
@@ -204,6 +212,27 @@ export default {
     },
     successRenameList() {
       this.showRenameList = false;
+    },
+    openAddTaskModal(id, title) {
+      this.parentListId = id;
+      this.parentListTitle = title;
+      this.showAddTask = true;
+    },
+    successAddTask() {
+      this.showAddTask = false;
+      this.LOADER_INCREMENT();
+      this.GET_ALL_TO_DO_LISTS().then(() => {
+        this.LOADER_DECREMENT();
+      });
+    },
+    countName(val) {
+      let value;
+      if (val === 1) {
+        value = "task";
+      } else {
+        value = "tasks";
+      }
+      return value;
     },
   },
 };

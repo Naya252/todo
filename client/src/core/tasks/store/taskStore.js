@@ -1,5 +1,6 @@
-import * as taskService from "../services/taskService";
-import * as taskRepository from "../repositories/taskRepository";
+// import * as taskService from "../services/taskService";
+import * as listService from "../services/listService";
+// import * as taskRepository from "../repositories/taskRepository";
 export default {
   state: () => ({
     allToDoLists: [],
@@ -8,7 +9,7 @@ export default {
   }),
   actions: {
     GET_ALL_TO_DO_LISTS({ commit }) {
-      taskService.getAllToDoLists().then((response) => {
+      listService.getAllToDoLists().then((response) => {
         commit("SET_ALL_TO_DO_LISTS", response);
         commit("SET_ACTIVE_TO_DO_LISTS", response);
         commit("SET_ARCHIVE_TO_DO_LISTS", response);
@@ -20,20 +21,20 @@ export default {
       state.allToDoLists = data;
     },
     SET_ACTIVE_TO_DO_LISTS: (state, data) => {
-      state.activeToDoLists = taskService.getActiveToDoLists(data);
+      state.activeToDoLists = listService.getActiveToDoLists(data);
     },
     SET_ARCHIVE_TO_DO_LISTS: (state, data) => {
-      state.archiveToDoLists = taskService.getArchiveToDoLists(data);
+      state.archiveToDoLists = listService.getArchiveToDoLists(data);
     },
     CHANGE_ACTIVE_TO_DO_LISTS: (state, data) => {
-      let value = taskService.changeActiveToDoListsForDraggable(
+      let value = listService.changeActiveToDoListsForDraggable(
         state.activeToDoLists,
         data
       );
       state.activeToDoLists = value;
     },
     CHANGE_ACTIVE_TO_DO_LISTS_DRAGGABLE: (state) => {
-      taskService.draggableActiveToDoLists(state.activeToDoLists);
+      listService.draggableActiveToDoLists(state.activeToDoLists);
     },
     RENAME_TO_DO_LIST: (state, data) => {
       state.activeToDoLists.forEach((el) => {
@@ -42,14 +43,15 @@ export default {
         }
       });
     },
+    // ADD_TASK_TO_DO_LIST: (state, data) => {
+    //     state.activeToDoLists.forEach((el) => {
+    //       if (el._id == data.id) {
+    //         el.title = data.title;
+    //       }
+    //     });
+    //   },
   },
   getters: {
-    GET_ACTIVE_TO_DO_LISTS_LENGTH(state) {
-      return state.activeToDoLists.length;
-    },
-    GET_ARCHIVE_TO_DO_LISTS_LENGTH(state) {
-      return state.archiveToDoLists.length;
-    },
     GET_ACTIVE_TO_DO_LISTS(state) {
       return state.activeToDoLists;
     },
