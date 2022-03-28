@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row>
+    <v-row v-if="$route.name == 'allTasks'">
       <v-col class="col-12">
         <h1>
           Your lists
@@ -28,7 +28,7 @@
         </div>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row v-if="$route.name == 'allTasks'">
       <v-col
         class="col-12"
         :key="toDoLists ? toDoLists.length : '111'"
@@ -169,6 +169,8 @@
         @event-cancel="showDeleteTask = false"
       />
     </my-modal-center>
+
+    <router-view></router-view>
   </v-container>
 </template>
 

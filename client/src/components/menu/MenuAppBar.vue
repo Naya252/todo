@@ -14,7 +14,7 @@
     </v-btn>
 
     <v-toolbar-title class="pl-0">
-      <p style="font-weight: bold; font-size: 1.5rem;" class="mb-0 ml-4">
+      <p style="font-weight: bold; font-size: 1.5rem" class="mb-0 ml-4">
         My App
       </p>
     </v-toolbar-title>

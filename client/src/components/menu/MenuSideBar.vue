@@ -75,7 +75,9 @@
           <v-list-item-group>
             <v-list-item class="menuList" link>
               <v-list-item-icon>
-                <v-icon color="MainColor" class="menuList__icon">mdi-cog</v-icon>
+                <v-icon color="MainColor" class="menuList__icon"
+                  >mdi-cog</v-icon
+                >
               </v-list-item-icon>
 
               <v-list-item-content class="text-left">
@@ -161,7 +163,9 @@
           <v-list-item-group>
             <v-list-item class="menuList" link>
               <v-list-item-icon>
-                <v-icon color="MainColor" class="menuList__icon">mdi-cog</v-icon>
+                <v-icon color="MainColor" class="menuList__icon"
+                  >mdi-cog</v-icon
+                >
               </v-list-item-icon>
 
               <v-list-item-content class="text-left">

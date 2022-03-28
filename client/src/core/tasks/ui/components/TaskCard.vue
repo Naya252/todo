@@ -6,112 +6,116 @@
       v-bind="dragOptionsTasks"
       :handle="`.task-${listId}`"
     >
-      <v-col
-        v-for="task in dragTasks"
-        :key="`${task._id}-${task.deleted}-${task.completed}`"
-      >
-        <template
+      <template v-for="task in dragTasks">
+        <v-col
+          :key="`${task._id}-${task.deleted}-${task.completed}`"
           v-if="
             switchShowAllTasks
               ? task.completed == true || task.completed == false
               : task.completed == false
           "
         >
-          <v-hover v-slot="{ hover }">
-            <v-card
-              :key="task.completed"
-              :elevation="hover ? 5 : 0"
-              style="transition: all 0.3s ease; border: 1px dashed #ccc"
-            >
-              <v-progress-linear
-                v-if="task.deleted"
-                indeterminate
-                striped
-                color="deep-orange"
-              ></v-progress-linear>
-              <v-row class="ma-0">
-                <v-col class="col-auto pa-0">
-                  <v-card-actions :style="task.deleted ? 'opacity: 0.5' : ''">
-                    <v-checkbox
-                      :disabled="task.deleted ? true : false"
-                      :hide-details="true"
-                      color="MainColor"
-                      class="mt-1 ml-2"
-                      :input-value="task.completed"
-                      :key="`${task._id}-${task.deleted}-${task.completed}`"
-                      @change="changeCompleted(task)"
-                    ></v-checkbox>
-                  </v-card-actions>
-                </v-col>
-                <v-col class="pa-0">
-                  <v-card-text
-                    class="pb-2 text-left"
-                    :style="
-                      task.deleted
-                        ? 'opacity: 0.5'
-                        : task.completed
-                        ? 'text-decoration: line-through; opacity: 0.5'
-                        : ''
-                    "
+          <template>
+            <v-hover v-slot="{ hover }">
+              <v-card
+                :key="task.completed"
+                :elevation="hover ? 5 : 0"
+                style="transition: all 0.3s ease; border: 1px dashed #ccc"
+              >
+                <v-progress-linear
+                  v-if="task.deleted"
+                  indeterminate
+                  striped
+                  color="deep-orange"
+                ></v-progress-linear>
+                <v-row class="ma-0">
+                  <v-col class="col-auto pa-0">
+                    <v-card-actions :style="task.deleted ? 'opacity: 0.5' : ''">
+                      <v-checkbox
+                        :disabled="task.deleted ? true : false"
+                        :hide-details="true"
+                        color="MainColor"
+                        class="mt-1 ml-2"
+                        :input-value="task.completed"
+                        :key="`${task._id}-${task.deleted}-${task.completed}`"
+                        @change="changeCompleted(task)"
+                      ></v-checkbox>
+                    </v-card-actions>
+                  </v-col>
+                  <v-col
+                    class="pa-0"
+                    @click="$router.push(`/${task._id}`)"
+                    style="cursor: pointer"
                   >
-                    {{ task.title }}
-                  </v-card-text>
-                </v-col>
-                <v-col class="col-auto pa-0">
-                  <v-card-actions>
-                    <my-btn-icon
-                      v-if="task.deleted"
-                      :isTooltip="false"
-                      :id="`deleteTaskBtn-${task._id}`"
-                      tooltipTitle="Delete"
-                      :class="`task-${task.parentId}`"
-                      color="MainColor"
-                      @click="
-                        $emit('return', {
-                          id: task._id,
-                          parentId: task.parentId,
-                          title: task.title,
-                        })
+                    <v-card-text
+                      class="pb-2 text-left"
+                      :style="
+                        task.deleted
+                          ? 'opacity: 0.5'
+                          : task.completed
+                          ? 'text-decoration: line-through; opacity: 0.5'
+                          : ''
                       "
-                      ><v-icon color="MainColor">mdi-refresh-circle</v-icon>
-                    </my-btn-icon>
+                    >
+                      {{ task.title }}
+                    </v-card-text>
+                  </v-col>
+                  <v-col class="col-auto pa-0">
+                    <v-card-actions>
+                      <my-btn-icon
+                        v-if="task.deleted"
+                        :isTooltip="false"
+                        :id="`deleteTaskBtn-${task._id}`"
+                        tooltipTitle="Delete"
+                        :class="`task-${task.parentId}`"
+                        color="MainColor"
+                        @click="
+                          $emit('return', {
+                            id: task._id,
+                            parentId: task.parentId,
+                            title: task.title,
+                          })
+                        "
+                        ><v-icon color="MainColor">mdi-refresh-circle</v-icon>
+                      </my-btn-icon>
 
-                    <my-btn-icon
-                      v-if="!task.deleted"
-                      :disabled="task.deleted ? true : false"
-                      :plain="true"
-                      :isTooltip="false"
-                      :id="`deleteTaskBtn-${task._id}`"
-                      tooltipTitle="Delete"
-                      :class="`task-${task.parentId}`"
-                      color="error"
-                      @click="
-                        $emit('delete', {
-                          id: task._id,
-                          parentId: task.parentId,
-                          title: task.title,
-                        })
-                      "
-                    >
-                      <v-icon>mdi-delete-forever-outline</v-icon>
-                    </my-btn-icon>
-                    <my-btn-icon
-                      v-if="!task.deleted"
-                      :disabled="task.deleted ? true : false"
-                      :isTooltip="false"
-                      :id="`moveTaskBtn-${task._id}`"
-                      tooltipTitle="Move"
-                      :class="`task-${task.parentId}`"
-                    >
-                      <v-icon>mdi-format-line-spacing</v-icon>
-                    </my-btn-icon>
-                  </v-card-actions>
-                </v-col>
-              </v-row>
-            </v-card>
-          </v-hover>
-        </template>
-      </v-col>
+                      <my-btn-icon
+                        v-if="!task.deleted"
+                        :disabled="task.deleted ? true : false"
+                        :plain="true"
+                        :isTooltip="false"
+                        :id="`deleteTaskBtn-${task._id}`"
+                        tooltipTitle="Delete"
+                        :class="`task-${task.parentId}`"
+                        color="error"
+                        @click="
+                          $emit('delete', {
+                            id: task._id,
+                            parentId: task.parentId,
+                            title: task.title,
+                          })
+                        "
+                      >
+                        <v-icon>mdi-delete-forever-outline</v-icon>
+                      </my-btn-icon>
+                      <my-btn-icon
+                        v-if="!task.deleted"
+                        :disabled="task.deleted ? true : false"
+                        :isTooltip="false"
+                        :id="`moveTaskBtn-${task._id}`"
+                        tooltipTitle="Move"
+                        :class="`task-${task.parentId}`"
+                      >
+                        <v-icon>mdi-format-line-spacing</v-icon>
+                      </my-btn-icon>
+                    </v-card-actions>
+                  </v-col>
+                </v-row>
+              </v-card>
+            </v-hover>
+          </template>
+        </v-col>
+      </template>
     </Draggable>
   </v-row>
 </template>

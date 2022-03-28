@@ -53,5 +53,3 @@ export async function draggableActiveToDoLists(data) {
       });
   });
 }
-
-

@@ -62,36 +62,6 @@ router.put("/renameList/:id", async (req, res) => {
   res.status(204).send();
 });
 
-// //Get Tasks
-// router.get("/", async (req, res) => {
-//   const tasks = await loadListsCollection();
-//   res.send(await tasks.find({}).toArray());
-// });
-
-// //Get Task by ID
-// router.get("/:id", async (req, res) => {
-//   const tasks = await loadListsCollection();
-//   res.send(
-//     await tasks.find({ _id: new mongodb.ObjectId(req.params.id) }).toArray()
-//   );
-// });
-
-// //Add Task
-// router.post("/", async (req, res) => {
-//   const tasks = await loadListsCollection();
-//   await tasks.insertOne({
-//     text: req.body.data.text,
-//   });
-//   res.status(201).send();
-// });
-
-// //Delete Task
-// router.delete("/:id", async (req, res) => {
-//   const tasks = await loadListsCollection();
-//   await tasks.deleteOne({ _id: new mongodb.ObjectId(req.params.id) });
-//   res.status(200).send();
-// });
-
 async function loadListsCollection() {
   const client = await mongodb.MongoClient.connect(
     `mongodb://localhost:27017/todo`,

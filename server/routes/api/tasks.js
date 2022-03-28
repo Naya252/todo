@@ -25,6 +25,14 @@ router.get("/getAllTasks", async (req, res) => {
   res.send(await tasks.find({}).toArray());
 });
 
+//Get Task by ID
+router.get("/getTask/:id", async (req, res) => {
+  const tasks = await loadTasksCollection();
+  res.send(
+    await tasks.find({ _id: new mongodb.ObjectId(req.params.id) }).toArray()
+  );
+});
+
 //Move Task
 router.put("/moveTask/:id", async (req, res) => {
   const tasks = await loadTasksCollection();
@@ -57,6 +65,27 @@ router.put("/completeTask/:id", async (req, res) => {
   const tasks = await loadTasksCollection();
   const $set = {
     completed: req.body.completed,
+  };
+  await tasks.findOneAndUpdate(
+    { _id: new mongodb.ObjectId(req.params.id) },
+    {
+      $set,
+    },
+    {
+      new: true,
+      upsert: true,
+      rawResult: true,
+    }
+  );
+  res.status(204).send();
+});
+
+//Update Task title & description
+router.put("/updateTask/:id", async (req, res) => {
+  const tasks = await loadTasksCollection();
+  const $set = {
+    title: req.body.title,
+    description: req.body.description,
   };
   await tasks.findOneAndUpdate(
     { _id: new mongodb.ObjectId(req.params.id) },

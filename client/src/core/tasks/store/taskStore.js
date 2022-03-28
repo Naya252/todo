@@ -54,6 +54,10 @@ export default {
         }
       });
     },
+    UPDATE_TASK: (state, data) => {
+      let value = listService.updateTask(state.activeToDoLists, data);
+      state.activeToDoLists = value;
+    },
     PRE_DELETE_TASK: (state, data) => {
       let value = listService.preDeleteTask(state.activeToDoLists, data);
       state.activeToDoLists = value;

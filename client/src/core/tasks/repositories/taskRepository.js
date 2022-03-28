@@ -26,6 +26,17 @@ export async function getAllTasks() {
     });
 }
 
+export async function getTask(id) {
+  return await axios
+    .get(`${apiRoute}getTask/${id}`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
 export async function draggableActiveToDoListById(data) {
   data.forEach((el) => {
     return axios
@@ -56,6 +67,20 @@ export async function changeTaskCompleted(data) {
   return await axios
     .put(`${apiRoute}completeTask/${data.id}`, {
       completed: data.completed,
+    })
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+export async function updateTask(data) {
+  return await axios
+    .put(`${apiRoute}updateTask/${data.id}`, {
+      title: data.title,
+      description: data.description,
     })
     .then((response) => {
       return response.data;

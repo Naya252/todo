@@ -108,6 +108,21 @@ export function preDeleteTask(lists, data) {
   return lists;
 }
 
+export function updateTask(lists, data) {
+  lists.forEach((el) => {
+    if (el._id == data.parentId) {
+      el.tasks.forEach((elem) => {
+        if (elem._id == data.id) {
+          elem.title = data.title;
+          elem.description = data.description;
+        }
+      });
+    }
+  });
+
+  return lists;
+}
+
 export function deleteTask(lists, data) {
   lists.forEach((el) => {
     if (el._id == data.listId) {
