@@ -3,7 +3,22 @@
     <v-row>
       <v-col class="col-12">
         <!-- {{ task }} -->
-        <v-card flat max-width="800" class="mx-auto pa-10" max-height="80vh">
+        <v-card flat max-width="800" class="mx-auto pa-10 pt-0" max-height="80vh">
+          <v-row class="ma-0">
+            <v-col class="px-5 pb-10">
+              <v-checkbox
+                :disabled="task.deleted ? true : false"
+                :hide-details="true"
+                color="MainColor"
+                class="mt-1 ml-2"
+                :input-value="task.completed"
+                :key="`${task._id}-${task.deleted}-${task.completed}`"
+                @change="changeCompleted(task)"
+                label="complete the task"
+              ></v-checkbox>
+            </v-col>
+            <v-col class="pa-0"></v-col>
+          </v-row>
           <v-form ref="form" v-model="valid" @submit.prevent="onSubmit">
             <v-card-text
               class="pt-0 px-8 pb-2 text-left"
@@ -79,6 +94,7 @@
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import * as taskRepository from "../../repositories/taskRepository";
+import taskMixins from "../../mixins/taskMixins";
 
 import DeleteTask from "../components/modalWindows/DeleteTask.vue";
 
@@ -87,6 +103,7 @@ export default {
   components: {
     DeleteTask,
   },
+  mixins: [taskMixins],
 
   data: () => ({
     showDeleteTask: false,

@@ -108,6 +108,17 @@ export function preDeleteTask(lists, data) {
   return lists;
 }
 
+export function deleteTask(lists, data) {
+  lists.forEach((el) => {
+    if (el._id == data.listId) {
+      let newTasks = el.tasks.filter((elem) => elem._id !== data.taskId);
+      el.tasks = newTasks;
+    }
+  });
+
+  return lists;
+}
+
 export function updateTask(lists, data) {
   lists.forEach((el) => {
     if (el._id == data.parentId) {
@@ -123,11 +134,14 @@ export function updateTask(lists, data) {
   return lists;
 }
 
-export function deleteTask(lists, data) {
+export function completeTask(lists, data) {
   lists.forEach((el) => {
-    if (el._id == data.listId) {
-      let newTasks = el.tasks.filter((elem) => elem._id !== data.taskId);
-      el.tasks = newTasks;
+    if (el._id == data.parentId) {
+      el.tasks.forEach((elem) => {
+        if (elem._id == data.id) {
+          elem.completed = data.completed;
+        }
+      });
     }
   });
 

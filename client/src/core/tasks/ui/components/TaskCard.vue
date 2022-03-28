@@ -127,6 +127,7 @@ import CreateList from "../components/modalWindows/CreateList.vue";
 import RenameList from "../components/modalWindows/RenameList.vue";
 import AddTask from "../components/modalWindows/AddTask.vue";
 import * as taskRepository from "../../repositories/taskRepository";
+import taskMixins from "../../mixins/taskMixins";
 
 export default {
   name: "TasksCard",
@@ -136,6 +137,7 @@ export default {
     RenameList,
     AddTask,
   },
+  mixins: [taskMixins],
   props: {
     tasks: {
       type: Array,

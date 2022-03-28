@@ -58,6 +58,10 @@ export default {
       let value = listService.updateTask(state.activeToDoLists, data);
       state.activeToDoLists = value;
     },
+    UPDATE_COMPLETE_TASK: (state, data) => {
+      let value = listService.completeTask(state.activeToDoLists, data);
+      state.activeToDoLists = value;
+    },
     PRE_DELETE_TASK: (state, data) => {
       let value = listService.preDeleteTask(state.activeToDoLists, data);
       state.activeToDoLists = value;
