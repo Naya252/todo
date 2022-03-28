@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="mx-auto" style="max-width: 1200px">
     <v-row v-if="$route.name == 'allTasks'">
       <v-col class="col-12">
         <h1>
@@ -48,7 +48,7 @@
           >
             <v-col
               cols="12"
-              sm="3"
+              md="3"
               style="overflow-wrap: break-word; white-space: normal"
             >
               <h3 class="text-left list-title">
@@ -83,9 +83,13 @@
                 </my-btn-icon>
               </div>
             </v-col>
-            <v-col cols="12" sm="9">
+            <v-col
+              cols="12"
+              md="9"
+              :class="GET_WINDOW_SIZE.x < 650 ? 'px-0' : ''"
+            >
               <v-row class="ma-0">
-                <v-col cols="12" class="py-0">
+                <v-col cols="12" class="py-0" :class="GET_WINDOW_SIZE.x < 650 ? 'px-0' : ''">
                   <v-list-group
                     style="border-top: 1px solid lightgrey"
                     color="MainColor"

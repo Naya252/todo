@@ -1,16 +1,20 @@
 <template>
-  <v-container class="mt-10">
+  <v-container class="mt-10 mx-auto" style="max-width: 1200px">
     <v-row>
       <v-col class="col-12">
         <!-- {{ task }} -->
         <v-card
           flat
           max-width="800"
-          class="mx-auto pa-10 pt-0"
+          class="mx-auto pt-0"
+          :class="GET_WINDOW_SIZE.x < 650 ? 'pa-0' : 'pa-10'"
           max-height="80vh"
         >
           <v-row class="ma-0">
-            <v-col class="px-5 pb-10">
+            <v-col
+              class="pb-10"
+              :class="GET_WINDOW_SIZE.x < 650 ? 'px-0' : 'px-5'"
+            >
               <v-checkbox
                 :disabled="task.deleted ? true : false"
                 :hide-details="true"
@@ -22,7 +26,10 @@
                 label="complete the task"
               ></v-checkbox>
             </v-col>
-            <v-col class="px-5 pb-10 text-right">
+            <v-col
+              class="pb-10 text-right"
+              :class="GET_WINDOW_SIZE.x < 650 ? 'px-0' : 'px-5'"
+            >
               <my-btn-icon
                 v-if="task.deleted"
                 :isTooltip="false"
@@ -63,7 +70,8 @@
           </v-row>
           <v-form ref="form" v-model="valid" @submit.prevent="onSubmit">
             <v-card-text
-              class="pt-0 px-8 pb-2 text-left"
+              class="pt-0 pb-2 text-left"
+              :class="GET_WINDOW_SIZE.x < 650 ? 'px-0' : 'px-8'"
               style="font-size: 16px"
               >Title
               <my-btn-icon :plain="true" @click="changeDisabledTitle">
@@ -71,7 +79,7 @@
               </my-btn-icon>
               <v-text-field
                 :disabled="disabledTitle"
-                v-model="controls.Title"
+                v-model.trim="controls.Title"
                 :rules="rules.title"
                 filled
                 dense
@@ -81,7 +89,8 @@
               ></v-text-field>
             </v-card-text>
             <v-card-text
-              class="pt-0 px-8 pb-2 text-left"
+              :class="GET_WINDOW_SIZE.x < 650 ? 'px-0' : 'px-8'"
+              class="pt-0 pb-2 text-left"
               style="font-size: 16px"
               >Description
               <my-btn-icon :plain="true" @click="changeDisabledDescription">
@@ -89,7 +98,7 @@
               </my-btn-icon>
               <v-textarea
                 :disabled="disabledDescription"
-                v-model="controls.Description"
+                v-model.trim="controls.Description"
                 filled
                 dense
                 autocomplete="off"
@@ -173,7 +182,8 @@ export default {
     rules: {
       title: [
         (v) => !!v || "Required",
-        (v) => (v && v.length >= 2 && v.length <= 50) || "2 to 50 symbols",
+        (v) =>
+          (v && v.trim().length >= 2 && v.length <= 50) || "2 to 50 symbols",
       ],
     },
   }),

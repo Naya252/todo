@@ -1,7 +1,7 @@
 <template>
   <v-alert
     v-model="alert"
-    class="pa-4 text-left"
+    class="pa-2 text-left"
     style="border-radius: 8px"
     :color="
       item.type == 'suc'
@@ -13,22 +13,22 @@
         : '#FFEDED'
     "
     dismissible
-    width="420"
+    width="300"
   >
-    <div class="mr-4">
+    <div class="mr-2">
       <span
         style="
           color: #101828;
-          font-size: 14px;
-          line-height: 20px;
+          font-size: 0.8rem;
+          line-height: 100%;
           font-weight: 600;
         "
       >
         {{ item.text }}
       </span>
     </div>
-    <div class="mr-4 my-1" v-if="item.subtype == 'order'">
-      <span style="color: #101828; font-size: 14px; line-height: 20px">
+    <div class="mr-2 my-1" v-if="item.subtype == 'order'">
+      <span style="color: #101828; font-size: 0.8rem; line-height: 100%">
         {{ item.subtype }}
       </span>
     </div>

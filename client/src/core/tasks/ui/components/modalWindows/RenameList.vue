@@ -4,7 +4,7 @@
       <v-card-text class="pt-0 px-8 pb-2 text-left" style="font-size: 16px"
         >Title
         <v-text-field
-          v-model="controls.Title"
+          v-model.trim="controls.Title"
           :rules="rules.title"
           filled
           dense
@@ -64,7 +64,7 @@ export default {
       rules: {
         title: [
           (v) => !!v || "Required",
-          (v) => (v && v.length >= 2 && v.length <= 50) || "2 to 50 symbols",
+          (v) => (v && v.trim().length >= 2 && v.length <= 50) || "2 to 50 symbols",
         ],
       },
     };
