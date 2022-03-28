@@ -4,7 +4,7 @@
       <v-card-text class="pt-0 px-8 pb-2 text-left" style="font-size: 16px"
         >To-do List
         <v-text-field
-          :value="parentTitle"
+          v-model="controls.ParentTitle"
           disabled
           filled
           dense
@@ -76,7 +76,9 @@ export default {
       default: "",
     },
   },
-  created() {},
+  created() {
+    this.setData();
+  },
   data() {
     return {
       valid: true,
@@ -84,6 +86,7 @@ export default {
       controls: {
         Title: "",
         Description: "",
+        ParentTitle: "",
       },
 
       rules: {
@@ -98,11 +101,16 @@ export default {
     showModal() {
       if (!this.showModal) {
         this.clearForm();
+      } else {
+        this.setData();
       }
     },
   },
   methods: {
     ...mapMutations(["SET_ADD_ALERT", "LOADER_INCREMENT", "LOADER_DECREMENT"]),
+    setData() {
+      this.controls.ParentTitle = this.parentTitle;
+    },
 
     async success() {
       if (this.$refs.form.validate()) {

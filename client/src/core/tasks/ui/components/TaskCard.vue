@@ -26,8 +26,8 @@
                     :hide-details="true"
                     color="MainColor"
                     class="mt-1 ml-2"
-                    :value="task.isArchived"
-                    @change="changeIsArchived(task)"
+                    :value="task.completed"
+                    @change="changeCompleted(task)"
                   ></v-checkbox>
                 </v-card-actions>
               </v-col>
@@ -164,9 +164,9 @@ export default {
       "CHANGE_ACTIVE_TO_DO_LIST",
       "CHANGE_ACTIVE_TO_DO_LIST_DRAGGABLE",
     ]),
-    changeIsArchived(task) {
-      task.isArchived = !task.isArchived;
-      if (task.isArchived) {
+    changeCompleted(task) {
+      task.completed = !task.completed;
+      if (task.completed) {
         this.SET_ADD_ALERT({
           type: "suc",
           text: `The task "${task.title}" completed`,

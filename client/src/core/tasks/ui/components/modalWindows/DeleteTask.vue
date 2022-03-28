@@ -85,9 +85,7 @@ export default {
         });
         this.LOADER_DECREMENT();
         this.clearForm();
-        console.log("d");
         this.$emit("event-success", data);
-        console.log("d2");
       } catch (error) {
         console.log(error);
         this.SET_ADD_ALERT({

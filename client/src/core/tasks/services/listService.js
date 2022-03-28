@@ -107,3 +107,14 @@ export function preDeleteTask(lists, data) {
 
   return lists;
 }
+
+export function deleteTask(lists, data) {
+  lists.forEach((el) => {
+    if (el._id == data.listId) {
+      let newTasks = el.tasks.filter((elem) => elem._id !== data.taskId);
+      el.tasks = newTasks;
+    }
+  });
+
+  return lists;
+}

@@ -63,6 +63,10 @@ export default {
       let list = state.activeToDoLists.filter((el) => el._id == id);
       state.preDeleteList = list[0];
     },
+    DELETE_TASK: (state, data) => {
+      let value = listService.deleteTask(state.activeToDoLists, data);
+      state.activeToDoLists = value;
+    },
   },
   getters: {
     GET_ACTIVE_TO_DO_LISTS(state) {

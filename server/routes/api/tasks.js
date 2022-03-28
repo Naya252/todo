@@ -14,6 +14,7 @@ router.post("/createTask", async (req, res) => {
     isArchived: false,
     order: 0,
     deleted: false,
+    completed: false,
   });
   res.status(201).send();
 });

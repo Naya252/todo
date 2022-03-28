@@ -227,6 +227,7 @@ export default {
       "SET_ADD_ALERT",
       "PRE_DELETE_TASK",
       "GET_ACTIVE_TO_DO_LIST_BY_ID",
+      "DELETE_TASK",
     ]),
     successCreateList() {
       this.showCreateList = false;
@@ -275,9 +276,7 @@ export default {
       });
     },
     successDeleteTask(data) {
-      console.log("1");
       this.showDeleteTask = false;
-      console.log("2");
       this.afterDeleteTask(data);
     },
     afterDeleteTask(data) {
@@ -287,10 +286,7 @@ export default {
           if (el._id == data.id) {
             if (el.deleted) {
               taskRepository.deleteTask(el._id).then(() => {
-                this.LOADER_INCREMENT();
-                this.GET_ALL_TO_DO_LISTS().then(() => {
-                  this.LOADER_DECREMENT();
-                });
+                this.DELETE_TASK({ listId: data.parentId, taskId: el._id });
               });
             }
           }
