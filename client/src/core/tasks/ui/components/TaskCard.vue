@@ -20,7 +20,8 @@
               <v-card
                 :key="task.completed"
                 :elevation="hover ? 5 : 0"
-                style="transition: all 0.3s ease; border: 1px dashed #ccc"
+                style="transition: all 0.3s ease"
+                :style="$vuetify.theme.dark ? '' : 'border: 1px dashed #ccc'"
               >
                 <v-progress-linear
                   v-if="task.deleted"

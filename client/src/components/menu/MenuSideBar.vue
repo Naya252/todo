@@ -3,6 +3,7 @@
     <!-- With mini menu -->
     <v-navigation-drawer
       v-if="GET_WINDOW_SIZE.x > 1023"
+      style="max-height: 100vh"
       app
       left
       disable-route-watcher
@@ -68,7 +69,6 @@
         <v-divider
           v-if="!GET_MINI"
           class="mx-2 my-0"
-          style="background: #e6e6e6"
         ></v-divider>
 
         <v-list class="py-0" height="56">
@@ -156,7 +156,6 @@
         <v-divider
           v-if="!GET_MINI"
           class="mx-2 my-0"
-          style="background: #e6e6e6"
         ></v-divider>
 
         <v-list class="py-0" height="56">

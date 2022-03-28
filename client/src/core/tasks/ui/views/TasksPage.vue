@@ -89,13 +89,17 @@
               :class="GET_WINDOW_SIZE.x < 650 ? 'px-0' : ''"
             >
               <v-row class="ma-0">
-                <v-col cols="12" class="py-0" :class="GET_WINDOW_SIZE.x < 650 ? 'px-0' : ''">
+                <v-col
+                  cols="12"
+                  class="py-0"
+                  :class="GET_WINDOW_SIZE.x < 650 ? 'px-0' : ''"
+                >
                   <v-list-group
                     style="border-top: 1px solid lightgrey"
                     color="MainColor"
                   >
                     <template v-slot:activator>
-                      <v-list-item-title
+                      <v-list-item-action-text
                         class="pb-2 pt-1"
                         style="
                           font-size: inherit;
@@ -103,13 +107,14 @@
                           white-space: pre-line;
                           text-align: left;
                           font-weight: 400;
+                          width: 100%
                         "
                       >
                         {{ activeTasks(list.tasks) }} active out of
 
                         {{ list.tasks.length }}
                         {{ countName(list.tasks.length) }}
-                      </v-list-item-title>
+                      </v-list-item-action-text>
                     </template>
                     <v-list-item v-if="list.tasks.length > 0">
                       <TaskCard

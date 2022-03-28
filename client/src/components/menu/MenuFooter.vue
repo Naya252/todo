@@ -1,12 +1,12 @@
 <template>
   <v-footer app absolute padless>
-    <v-card color="#ccc" class="flex pa-0 mx-auto" flat tile width="100%">
-      <v-card-title class="py-1" style="font-size: 0.88rem">
+    <v-card class="flex pa-0 mx-auto" tile width="100%" min-height="56">
+      <v-card-text class="py-1 mt-3" style="font-size: 0.88rem">
         <v-spacer></v-spacer>
         &copy;2022 <strong class="ml-2">N_&_N </strong>
 
         <v-spacer></v-spacer>
-      </v-card-title>
+      </v-card-text>
     </v-card>
   </v-footer>
 </template>

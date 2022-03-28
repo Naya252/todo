@@ -19,6 +19,10 @@
       </p>
     </v-toolbar-title>
     <v-spacer></v-spacer>
+    <my-btn-icon @click="changeTheme">
+      <v-icon v-if="$vuetify.theme.dark">mdi-weather-sunny</v-icon>
+      <v-icon v-else>mdi-moon-waxing-crescent</v-icon>
+    </my-btn-icon>
   </v-app-bar>
 </template>
 <script>
@@ -32,6 +36,10 @@ export default {
   },
   methods: {
     ...mapMutations(["TOGGLE_DRAWER"]),
+    changeTheme() {
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+      localStorage.setItem("userDarkTheme", this.$vuetify.theme.dark);
+    },
   },
 };
 </script>

@@ -13,6 +13,7 @@ export default new Vuetify({
     values: CUSTOM_ICONS,
   },
   theme: {
+    dark: true,
     options: {
       customProperties: true,
       minifyTheme,
