@@ -3,7 +3,12 @@
     <v-row>
       <v-col class="col-12">
         <!-- {{ task }} -->
-        <v-card flat max-width="800" class="mx-auto pa-10 pt-0" max-height="80vh">
+        <v-card
+          flat
+          max-width="800"
+          class="mx-auto pa-10 pt-0"
+          max-height="80vh"
+        >
           <v-row class="ma-0">
             <v-col class="px-5 pb-10">
               <v-checkbox
@@ -17,7 +22,44 @@
                 label="complete the task"
               ></v-checkbox>
             </v-col>
-            <v-col class="pa-0"></v-col>
+            <v-col class="px-5 pb-10 text-right">
+              <my-btn-icon
+                v-if="task.deleted"
+                :isTooltip="false"
+                :id="`deleteTaskBtn-${task._id}`"
+                tooltipTitle="Delete"
+                :class="`task-${task.parentId}`"
+                color="MainColor"
+                @click="
+                  returnTask({
+                    id: task._id,
+                    parentId: task.parentId,
+                    title: task.title,
+                  })
+                "
+                ><v-icon color="MainColor">mdi-refresh-circle</v-icon>
+              </my-btn-icon>
+
+              <my-btn-icon
+                v-if="!task.deleted"
+                :disabled="task.deleted ? true : false"
+                :plain="true"
+                :isTooltip="false"
+                :id="`deleteTaskBtn-${task._id}`"
+                tooltipTitle="Delete"
+                :class="`task-${task.parentId}`"
+                color="error"
+                @click="
+                  deleteTask({
+                    id: task._id,
+                    parentId: task.parentId,
+                    title: task.title,
+                  })
+                "
+              >
+                <v-icon>mdi-delete-forever-outline</v-icon>
+              </my-btn-icon>
+            </v-col>
           </v-row>
           <v-form ref="form" v-model="valid" @submit.prevent="onSubmit">
             <v-card-text
@@ -57,6 +99,12 @@
               ></v-textarea>
             </v-card-text>
             <v-divider></v-divider>
+            <v-progress-linear
+              v-if="task.deleted"
+              indeterminate
+              striped
+              color="deep-orange"
+            ></v-progress-linear>
             <v-card-actions
               class="pa-8"
               style="
@@ -231,6 +279,7 @@ export default {
         deleted: false,
       };
       this.PRE_DELETE_TASK(data);
+      this.task.deleted = false;
       this.SET_ADD_ALERT({
         type: "suc",
         text: `Task "${val.title}" returned to work`,
@@ -238,6 +287,7 @@ export default {
       });
     },
     successDeleteTask(data) {
+      this.task.deleted = true;
       this.showDeleteTask = false;
       this.afterDeleteTask(data);
     },
@@ -248,6 +298,10 @@ export default {
           if (el._id == data.id) {
             if (el.deleted) {
               taskRepository.deleteTask(el._id).then(() => {
+                if (this.$route.name == "oneTask") {
+                  this.$router.push("/");
+                }
+
                 this.DELETE_TASK({ listId: data.parentId, taskId: el._id });
               });
             }
