@@ -6,6 +6,7 @@ export default {
     allToDoLists: [],
     activeToDoLists: [],
     archiveToDoLists: [],
+    preDeleteList: {},
   }),
   actions: {
     GET_ALL_TO_DO_LISTS({ commit }) {
@@ -54,20 +55,24 @@ export default {
         }
       });
     },
+    PRE_DELETE_TASK: (state, data) => {
+      let value = listService.preDeleteTask(state.activeToDoLists, data);
+      state.activeToDoLists = value;
+    },
+    GET_ACTIVE_TO_DO_LIST_BY_ID: (state, id) => {
+      let list = state.activeToDoLists.filter((el) => el._id == id);
+      state.preDeleteList = list[0];
+    },
   },
   getters: {
     GET_ACTIVE_TO_DO_LISTS(state) {
       return state.activeToDoLists;
     },
-    GET_ACTIVE_TO_DO_LIST_BY_ID(state, id) {
-      let list = state.activeToDoLists.filter((el) => {
-        el._id == id;
-      });
-      console.log(list);
-      return list;
-    },
     GET_ARCHIVE_TO_DO_LISTS(state) {
       return state.archiveToDoLists;
+    },
+    GET_PRE_DELETE_LIST(state) {
+      return state.preDeleteList;
     },
   },
 };

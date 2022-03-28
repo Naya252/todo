@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app dense class="pa-0">
+  <v-app-bar app dense class="pa-0" :elevation="1">
     <v-btn
       height="48"
       width="48"
@@ -14,12 +14,9 @@
     </v-btn>
 
     <v-toolbar-title class="pl-0">
-      <v-img
-        max-height="40"
-        contain
-        alt="Logo"
-        :src="require('../../assets/logo6.svg')"
-      />
+      <p style="font-weight: bold; font-size: 1.5rem;" class="mb-0 ml-4">
+        My App
+      </p>
     </v-toolbar-title>
     <v-spacer></v-spacer>
   </v-app-bar>

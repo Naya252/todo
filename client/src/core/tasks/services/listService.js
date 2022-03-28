@@ -93,3 +93,17 @@ export function changeActiveToDoListByIdForDraggable(stateToDoLists, data) {
   });
   return stateToDoLists;
 }
+
+export function preDeleteTask(lists, data) {
+  lists.forEach((el) => {
+    if (el._id == data.parentId) {
+      el.tasks.forEach((elem) => {
+        if (elem._id == data.id) {
+          elem.deleted = data.deleted;
+        }
+      });
+    }
+  });
+
+  return lists;
+}

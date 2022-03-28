@@ -13,6 +13,7 @@ router.post("/createTask", async (req, res) => {
     parentTitle: req.body.data.parentTitle,
     isArchived: false,
     order: 0,
+    deleted: false,
   });
   res.status(201).send();
 });
@@ -41,6 +42,13 @@ router.put("/moveTask/:id", async (req, res) => {
     }
   );
   res.status(204).send();
+});
+
+//Delete Task
+router.delete("/deleteTask/:id", async (req, res) => {
+  const tasks = await loadTasksCollection();
+  await tasks.deleteOne({ _id: new mongodb.ObjectId(req.params.id) });
+  res.status(200).send();
 });
 
 async function loadTasksCollection() {

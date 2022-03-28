@@ -6,16 +6,23 @@
       v-bind="dragOptionsTasks"
       :handle="`.task-${listId}`"
     >
-      <v-col v-for="task in dragTasks" :key="task._id">
+      <v-col v-for="task in dragTasks" :key="`${task._id}-${task.deleted}`">
         <v-hover v-slot="{ hover }">
           <v-card
             :elevation="hover ? 5 : 0"
             style="transition: all 0.3s ease; border: 1px dashed #ccc"
           >
+            <v-progress-linear
+              v-if="task.deleted"
+              indeterminate
+              striped
+              color="deep-orange"
+            ></v-progress-linear>
             <v-row class="ma-0">
               <v-col class="col-auto pa-0">
-                <v-card-actions>
+                <v-card-actions :style="task.deleted ? 'opacity: 0.5' : ''">
                   <v-checkbox
+                    :disabled="task.deleted ? true : false"
                     :hide-details="true"
                     color="MainColor"
                     class="mt-1 ml-2"
@@ -25,13 +32,55 @@
                 </v-card-actions>
               </v-col>
               <v-col class="pa-0">
-                <v-card-text class="pb-2 text-left">
+                <v-card-text
+                  class="pb-2 text-left"
+                  :style="task.deleted ? 'opacity: 0.5' : ''"
+                >
                   {{ task.title }}
+                  {{ task }}
                 </v-card-text>
               </v-col>
               <v-col class="col-auto pa-0">
                 <v-card-actions>
                   <my-btn-icon
+                    v-if="task.deleted"
+                    :isTooltip="false"
+                    :id="`deleteTaskBtn-${task._id}`"
+                    tooltipTitle="Delete"
+                    :class="`task-${task.parentId}`"
+                    color="MainColor"
+                    @click="
+                      $emit('return', {
+                        id: task._id,
+                        parentId: task.parentId,
+                        title: task.title,
+                      })
+                    "
+                    ><v-icon color="MainColor">mdi-refresh-circle</v-icon>
+                  </my-btn-icon>
+
+                  <my-btn-icon
+                    v-if="!task.deleted"
+                    :disabled="task.deleted ? true : false"
+                    :plain="true"
+                    :isTooltip="false"
+                    :id="`deleteTaskBtn-${task._id}`"
+                    tooltipTitle="Delete"
+                    :class="`task-${task.parentId}`"
+                    color="error"
+                    @click="
+                      $emit('delete', {
+                        id: task._id,
+                        parentId: task.parentId,
+                        title: task.title,
+                      })
+                    "
+                  >
+                    <v-icon>mdi-delete-forever-outline</v-icon>
+                  </my-btn-icon>
+                  <my-btn-icon
+                    v-if="!task.deleted"
+                    :disabled="task.deleted ? true : false"
                     :isTooltip="false"
                     :id="`moveTaskBtn-${task._id}`"
                     tooltipTitle="Move"
@@ -120,12 +169,12 @@ export default {
       if (task.isArchived) {
         this.SET_ADD_ALERT({
           type: "suc",
-          text: `The task ${task.title} completed`,
+          text: `The task "${task.title}" completed`,
         });
       } else {
         this.SET_ADD_ALERT({
           type: "info",
-          text: `The task ${task.title} returned to work`,
+          text: `The task "${task.title}" returned to work`,
         });
       }
     },

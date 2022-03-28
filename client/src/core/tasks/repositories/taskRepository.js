@@ -40,3 +40,14 @@ export async function draggableActiveToDoListById(data) {
       });
   });
 }
+
+export async function deleteTask(id) {
+  return await axios
+    .delete(`${apiRoute}deleteTask/${id}`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}

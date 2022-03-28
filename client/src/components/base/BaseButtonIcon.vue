@@ -1,6 +1,7 @@
 <template>
   <div style="display: inline-block">
     <v-btn
+      :plain="plain"
       dark
       :id="id"
       :color="hover ? color : baseColor"
@@ -36,6 +37,11 @@ export default {
       default: "#666",
     },
     disabled: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    plain: {
       type: Boolean,
       required: false,
       default: false,

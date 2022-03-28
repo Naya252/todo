@@ -1,29 +1,11 @@
 <template>
-  <v-footer app absolute dark padless>
-    <v-card class="flex pa-0 mx-auto" flat tile max-width="1920px">
+  <v-footer app absolute padless>
+    <v-card color="#ccc" class="flex pa-0 mx-auto" flat tile width="100%">
       <v-card-title class="py-1" style="font-size: 0.88rem">
+        <v-spacer></v-spacer>
         &copy;2022 <strong class="ml-2">N_&_N </strong>
 
         <v-spacer></v-spacer>
-
-        <v-btn
-          v-for="(icon, i) in icons"
-          :key="i"
-          :to="icon.link"
-          class="mx-2"
-          dark
-          icon
-        >
-          <v-icon size="24px">
-            {{ icon.img }}
-          </v-icon>
-        </v-btn>
-        <img
-          style="max-height: 30px"
-          class="logo mr-2"
-          alt="Logo"
-          :src="require('../../assets/logo4.svg')"
-        />
       </v-card-title>
     </v-card>
   </v-footer>

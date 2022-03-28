@@ -12,7 +12,7 @@
             tooltipTitle="Add list"
             @click="showCreateList = true"
           >
-            <v-icon>mdi-sticker-plus-outline</v-icon>
+            <v-icon>mdi-clipboard-plus-outline</v-icon>
           </my-btn-icon>
         </h1>
       </v-col>
@@ -95,7 +95,12 @@
                       </v-list-item-title>
                     </template>
                     <v-list-item v-if="list.tasks.length > 0">
-                      <TaskCard :tasks="list.tasks" :listId="list._id" />
+                      <TaskCard
+                        :tasks="list.tasks"
+                        :listId="list._id"
+                        @delete="deleteTask"
+                        @return="returnTask"
+                      />
                     </v-list-item>
                     <v-list-item v-else>
                       you don't have any tasks on this to-do list
@@ -140,15 +145,28 @@
         @event-cancel="showAddTask = false"
       />
     </my-modal-center>
+    <my-modal-center title="Delete task" :dialog="showDeleteTask">
+      <DeleteTask
+        :parentId="parentListIdForDelete"
+        :id="deleteTaskId"
+        :title="deleteTaskTitle"
+        :showModal="showDeleteTask"
+        @event-success="successDeleteTask"
+        @event-cancel="showDeleteTask = false"
+      />
+    </my-modal-center>
   </v-container>
 </template>
 
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
+import * as taskRepository from "../../repositories/taskRepository";
+
 import Draggable from "vuedraggable";
 import CreateList from "../components/modalWindows/CreateList.vue";
 import RenameList from "../components/modalWindows/RenameList.vue";
 import AddTask from "../components/modalWindows/AddTask.vue";
+import DeleteTask from "../components/modalWindows/DeleteTask.vue";
 import TaskCard from "../components/TaskCard.vue";
 export default {
   name: "TasksPage",
@@ -158,6 +176,7 @@ export default {
     RenameList,
     AddTask,
     TaskCard,
+    DeleteTask,
   },
 
   data: () => ({
@@ -168,6 +187,10 @@ export default {
     showAddTask: false,
     parentListId: "",
     parentListTitle: "",
+    showDeleteTask: false,
+    parentListIdForDelete: "",
+    deleteTaskId: "",
+    deleteTaskTitle: "",
   }),
   created() {},
   computed: {
@@ -175,7 +198,7 @@ export default {
       "LOADER_SHOW",
       "GET_WINDOW_SIZE",
       "GET_ACTIVE_TO_DO_LISTS",
-      "GET_ACTIVE_TO_DO_LIST_BY_ID",
+      "GET_PRE_DELETE_LIST",
     ]),
     toDoLists: {
       get() {
@@ -198,7 +221,13 @@ export default {
   },
   methods: {
     ...mapActions(["GET_ALL_TO_DO_LISTS"]),
-    ...mapMutations(["LOADER_INCREMENT", "LOADER_DECREMENT", "SET_ADD_ALERT"]),
+    ...mapMutations([
+      "LOADER_INCREMENT",
+      "LOADER_DECREMENT",
+      "SET_ADD_ALERT",
+      "PRE_DELETE_TASK",
+      "GET_ACTIVE_TO_DO_LIST_BY_ID",
+    ]),
     successCreateList() {
       this.showCreateList = false;
       this.LOADER_INCREMENT();
@@ -225,6 +254,48 @@ export default {
       this.GET_ALL_TO_DO_LISTS().then(() => {
         this.LOADER_DECREMENT();
       });
+    },
+    deleteTask(val) {
+      this.parentListIdForDelete = val.parentId;
+      this.deleteTaskId = val.id;
+      this.deleteTaskTitle = val.title;
+      this.showDeleteTask = true;
+    },
+    returnTask(val) {
+      const data = {
+        parentId: val.parentId,
+        id: val.id,
+        deleted: false,
+      };
+      this.PRE_DELETE_TASK(data);
+      this.SET_ADD_ALERT({
+        type: "suc",
+        text: `Task "${val.title}" returned to work`,
+        time: 3000,
+      });
+    },
+    successDeleteTask(data) {
+      console.log("1");
+      this.showDeleteTask = false;
+      console.log("2");
+      this.afterDeleteTask(data);
+    },
+    afterDeleteTask(data) {
+      setTimeout(() => {
+        this.GET_ACTIVE_TO_DO_LIST_BY_ID(data.parentId);
+        this.GET_PRE_DELETE_LIST.tasks.forEach((el) => {
+          if (el._id == data.id) {
+            if (el.deleted) {
+              taskRepository.deleteTask(el._id).then(() => {
+                this.LOADER_INCREMENT();
+                this.GET_ALL_TO_DO_LISTS().then(() => {
+                  this.LOADER_DECREMENT();
+                });
+              });
+            }
+          }
+        });
+      }, 5000);
     },
     countName(val) {
       let value;
