@@ -124,9 +124,6 @@
 <script>
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import Draggable from "vuedraggable";
-import CreateList from "../components/modalWindows/CreateList.vue";
-import RenameList from "../components/modalWindows/RenameList.vue";
-import AddTask from "../components/modalWindows/AddTask.vue";
 import * as taskRepository from "../../repositories/taskRepository";
 import taskMixins from "../../mixins/taskMixins";
 
@@ -134,9 +131,6 @@ export default {
   name: "TasksCard",
   components: {
     Draggable,
-    CreateList,
-    RenameList,
-    AddTask,
   },
   mixins: [taskMixins],
   props: {

@@ -20,10 +20,10 @@ export default new Vuetify({
     },
     themes: {
       light: {
-        MainColor: store.state.style.styleConfig.mainColorLight,
+        MainColor: store.state.style.mainColorLight,
       },
       dark: {
-        MainColor: store.state.style.styleConfig.mainColorDark,
+        MainColor: store.state.style.mainColorDark,
       },
     },
   },

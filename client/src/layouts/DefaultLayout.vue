@@ -37,8 +37,6 @@ import MenuAppBar from "../components/menu/MenuAppBar.vue";
 import MenuSideBar from "../components/menu/MenuSideBar.vue";
 import MenuFooter from "../components/menu/MenuFooter.vue";
 import Alert from "../components/AlertComponent.vue";
-import taskRepository from "../core/tasks/repositories/taskRepository";
-import taskService from "../core/tasks/services/taskService";
 
 import Preloader from "../components/PreloaderComponent.vue";
 

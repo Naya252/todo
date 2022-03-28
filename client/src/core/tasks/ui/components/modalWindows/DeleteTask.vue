@@ -24,8 +24,6 @@
 <script>
 import { mapMutations } from "vuex";
 
-import * as taskRepository from "../../../repositories/taskRepository";
-
 export default {
   name: "DeleteTask",
   components: {},

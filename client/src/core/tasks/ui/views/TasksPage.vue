@@ -107,7 +107,7 @@
                           white-space: pre-line;
                           text-align: left;
                           font-weight: 400;
-                          width: 100%
+                          width: 100%;
                         "
                       >
                         {{ activeTasks(list.tasks) }} active out of

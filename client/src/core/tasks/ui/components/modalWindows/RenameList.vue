@@ -64,7 +64,8 @@ export default {
       rules: {
         title: [
           (v) => !!v || "Required",
-          (v) => (v && v.trim().length >= 2 && v.length <= 50) || "2 to 50 symbols",
+          (v) =>
+            (v && v.trim().length >= 2 && v.length <= 50) || "2 to 50 symbols",
         ],
       },
     };

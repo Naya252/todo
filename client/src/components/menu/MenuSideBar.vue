@@ -66,18 +66,18 @@
       </v-list>
 
       <template v-slot:append>
-        <v-divider
-          v-if="!GET_MINI"
-          class="mx-2 my-0"
-        ></v-divider>
+        <v-divider v-if="!GET_MINI" class="mx-2 my-0"></v-divider>
 
         <v-list class="py-0" height="56">
           <v-list-item-group>
-            <v-list-item class="menuList" link>
+            <v-list-item
+              class="menuList"
+              link
+              active-class="menuList_active"
+              to="/settings"
+            >
               <v-list-item-icon>
-                <v-icon color="MainColor" class="menuList__icon"
-                  >mdi-cog</v-icon
-                >
+                <v-icon class="menuList__icon">mdi-cog</v-icon>
               </v-list-item-icon>
 
               <v-list-item-content class="text-left">
@@ -153,14 +153,16 @@
         </v-list-item-group>
       </v-list>
       <template v-slot:append>
-        <v-divider
-          v-if="!GET_MINI"
-          class="mx-2 my-0"
-        ></v-divider>
+        <v-divider v-if="!GET_MINI" class="mx-2 my-0"></v-divider>
 
         <v-list class="py-0" height="56">
           <v-list-item-group>
-            <v-list-item class="menuList" link>
+            <v-list-item
+              class="menuList"
+              link
+              active-class="menuList_active"
+              to="/settings"
+            >
               <v-list-item-icon>
                 <v-icon color="MainColor" class="menuList__icon"
                   >mdi-cog</v-icon

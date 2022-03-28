@@ -7,6 +7,12 @@ Vue.use(VueRouter);
 
 const routes = [
   {
+    path: "/settings",
+    name: "settings",
+    component: () =>
+      import(/* webpackChunkName: "settings" */ "../views/SettingsView.vue"),
+  },
+  {
     path: "*",
     name: "error",
     meta: { layout: "error" },
