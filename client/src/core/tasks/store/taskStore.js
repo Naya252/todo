@@ -40,7 +40,6 @@ export default {
         data
       );
       state.activeToDoLists = value;
-      console.log(state.activeToDoLists);
     },
     CHANGE_ACTIVE_TO_DO_LISTS_DRAGGABLE: (state) => {
       listService.draggableActiveToDoLists(state.activeToDoLists);

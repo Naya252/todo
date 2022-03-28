@@ -15,6 +15,17 @@
             <v-icon>mdi-clipboard-plus-outline</v-icon>
           </my-btn-icon>
         </h1>
+        <v-spacer></v-spacer>
+        <div class="text-right">
+          <div style="display: inline-block; width: 180px">
+            <v-switch
+              class="mt-0"
+              color="MainColor"
+              v-model="switchShowAllTasks"
+              label="Show all tasks"
+            ></v-switch>
+          </div>
+        </div>
       </v-col>
     </v-row>
     <v-row>
@@ -90,6 +101,8 @@
                           font-weight: 400;
                         "
                       >
+                        {{ activeTasks(list.tasks) }} active out of
+
                         {{ list.tasks.length }}
                         {{ countName(list.tasks.length) }}
                       </v-list-item-title>
@@ -98,6 +111,7 @@
                       <TaskCard
                         :tasks="list.tasks"
                         :listId="list._id"
+                        :switchShowAllTasks="switchShowAllTasks"
                         @delete="deleteTask"
                         @return="returnTask"
                       />
@@ -191,6 +205,7 @@ export default {
     parentListIdForDelete: "",
     deleteTaskId: "",
     deleteTaskTitle: "",
+    switchShowAllTasks: true,
   }),
   created() {},
   computed: {
@@ -301,6 +316,10 @@ export default {
         value = "tasks";
       }
       return value;
+    },
+    activeTasks(tasks) {
+      let arr = tasks.filter((el) => el.completed == false);
+      return arr.length;
     },
   },
 };

@@ -52,6 +52,26 @@ router.delete("/deleteTask/:id", async (req, res) => {
   res.status(200).send();
 });
 
+//Complete Task
+router.put("/completeTask/:id", async (req, res) => {
+  const tasks = await loadTasksCollection();
+  const $set = {
+    completed: req.body.completed,
+  };
+  await tasks.findOneAndUpdate(
+    { _id: new mongodb.ObjectId(req.params.id) },
+    {
+      $set,
+    },
+    {
+      new: true,
+      upsert: true,
+      rawResult: true,
+    }
+  );
+  res.status(204).send();
+});
+
 async function loadTasksCollection() {
   const client = await mongodb.MongoClient.connect(
     `mongodb://localhost:27017/todo`,

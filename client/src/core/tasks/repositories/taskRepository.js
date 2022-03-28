@@ -51,3 +51,16 @@ export async function deleteTask(id) {
       console.log(error);
     });
 }
+
+export async function changeTaskCompleted(data) {
+  return await axios
+    .put(`${apiRoute}completeTask/${data.id}`, {
+      completed: data.completed,
+    })
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
