@@ -1,6 +1,6 @@
 const routes = [
   {
-    path: "/",
+    path: "/to-do",
     name: "allTasks",
     component: () =>
       import(/* webpackChunkName: "allTasks" */ "../ui/views/TasksPage"),

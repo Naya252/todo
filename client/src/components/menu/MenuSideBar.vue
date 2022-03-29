@@ -201,7 +201,7 @@ export default {
         title: "To-Do",
         icon: "mdi-clipboard-check-multiple-outline",
         mt: 0,
-        link: "/",
+        link: "/to-do",
         disabled: false,
       },
       {

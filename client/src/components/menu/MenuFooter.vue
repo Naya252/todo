@@ -17,15 +17,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "MenuFooter",
   data() {
-    return {
-      icons: [
-        // {
-        //   img: 'mdi-email-open',
-        //   link: '/feedback',
-        // },
-      ],
-      padless: true,
-    };
+    return {};
   },
   components: {},
   async mounted() {},

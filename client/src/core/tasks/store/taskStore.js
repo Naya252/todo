@@ -1,6 +1,4 @@
-// import * as taskService from "../services/taskService";
 import * as listService from "../services/listService";
-// import * as taskRepository from "../repositories/taskRepository";
 export default {
   state: () => ({
     allToDoLists: [],

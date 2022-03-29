@@ -7,6 +7,13 @@ Vue.use(VueRouter);
 
 const routes = [
   {
+    path: "/",
+    redirect: "/to-do",
+    name: "settings2",
+    component: () =>
+      import(/* webpackChunkName: "settings" */ "../views/SettingsView.vue"),
+  },
+  {
     path: "/settings",
     name: "settings",
     component: () =>

@@ -309,7 +309,7 @@ export default {
             if (el.deleted) {
               taskRepository.deleteTask(el._id).then(() => {
                 if (this.$route.name == "oneTask") {
-                  this.$router.push("/");
+                  this.$router.push("/to-do");
                 }
 
                 this.DELETE_TASK({ listId: data.parentId, taskId: el._id });

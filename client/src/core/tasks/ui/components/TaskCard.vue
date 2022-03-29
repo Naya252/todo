@@ -45,7 +45,7 @@
                   </v-col>
                   <v-col
                     class="pa-0"
-                    @click="$router.push(`/${task._id}`)"
+                    @click="$router.push(`/to-do/${task._id}`)"
                     style="cursor: pointer"
                   >
                     <v-card-text
