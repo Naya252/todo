@@ -16,7 +16,7 @@
           </my-btn-icon>
         </h1>
         <v-spacer></v-spacer>
-        <div class="text-right">
+        <div class="text-right" v-if="toDoLists && toDoLists.length > 0">
           <div style="display: inline-block; width: 180px">
             <v-switch
               class="mt-0"

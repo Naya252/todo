@@ -2,11 +2,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
+var history = require('connect-history-api-fallback');
+
 const app = express();
 
 //Middleware
 app.use(bodyParser.json());
 app.use(cors());
+app.use(history());
 
 const lists = require('./routes/api/lists');
 const tasks = require('./routes/api/tasks');
