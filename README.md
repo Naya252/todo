@@ -10,11 +10,11 @@
 - create the list, 
 - rename the list,
 - move lists,
-- create tasks in the list,
+- create tasks in the list,
 - edit the task,
 - complete the task,
 - move the task,
-- delete the task,
+- delete the task,
 - change the accent color,
 - change the dark theme.
 
